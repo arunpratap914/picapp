@@ -29,6 +29,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // var_dump(Auth::user()->id);
+        // die;
+        if (Auth::user()->id) {
+            return redirect()->route('user_groups');
+        }
         return view('home');
     }
 

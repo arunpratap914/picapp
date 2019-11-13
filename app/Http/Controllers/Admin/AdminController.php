@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\NewUserCreateEvent;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
@@ -72,19 +73,23 @@ class AdminController extends Controller
     }
     public function save_new_user(Request $request)
     {
+        $user_detail = array();
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|min:8'
         ]);
-
+        $user_detail['password'] = $request->password;
+        $user_detail['email'] = $request->email;
         $user = new User;
-
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-
         $user->save();
+
+        //---Send email event----//
+        //event(new NewUserCreateEvent($user_detail));
+
         return redirect()->route('user_list')->with('success', 'User has been created.');
     }
     public function edit_user(User $user)
@@ -212,9 +217,10 @@ class AdminController extends Controller
     }
     public function createThumbnail($path, $width, $height)
     {
-        $img = Img::make($path)->resize($width, $height, function ($constraint) {
-            $constraint->aspectRatio();
-        });
+        // $img = Img::make($path)->resize($width, $height, function ($constraint) {
+        //     $constraint->aspectRatio();
+        // });
+        $img = Img::make($path)->resize($width, $height);
         $img->save($path);
     }
     public function images()

@@ -33,16 +33,15 @@
   <body>
     <!-- navbar-->
     <header class="header">
-      <nav class="navbar navbar-expand-lg fixed-top"><a href="{{url('/')}}" class="navbar-brand">PicApp</a>
+      <nav class="navbar navbar-expand-lg fixed-top bg-dark"><a href="{{route('user_groups')}}" class="navbar-brand"><img src="/images/header-the-network-film-productions-october16.png" alt=""></a>
         <button type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler navbar-toggler-right"><span></span><span></span><span></span></button>
         <div id="navbarSupportedContent" class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto align-items-start align-items-lg-center">
-            <li class="nav-item"><a href="{{url('/')}}" class="nav-link link-scroll">Home</a></li>
-            <li class="nav-item"><a @guest href="{{route('login')}}" @else href="{{route('user_groups')}}" @endguest  class="nav-link link-scroll">Groups</a></li>
+            <li class="nav-item"><a @guest href="{{route('login')}}" @else href="{{route('user_groups')}}" @endguest  class="nav-link link-scroll text-white">My Groups</a></li>
             {{-- <li class="nav-item"><a href="#testimonials" class="nav-link link-scroll">Testimonials</a></li>
             <li class="nav-item"><a href="text.html" class="nav-link">Text Page</a></li> --}}
             @auth
-            <li class="nav-item"><span class="nav-link">{{ Auth::user()->name }}</span></li>
+            {{-- <!--li class="nav-item"><span class="nav-link">{{ Auth::user()->name }}</span></!--li> --}}
             @endauth
           </ul>
           <div class="navbar-text">
@@ -50,7 +49,7 @@
                 <a href="{{route('login')}}" class="btn btn-primary navbar-btn btn-shadow btn-gradient">Login</a>
             @else
                 {{-- <span class="btn btn-primary navbar-btn btn-shadow btn-gradient">Logout</span> --}}
-                <a class="btn btn-primary navbar-btn btn-shadow btn-gradient" href="{{ route('logout') }}"
+                <a class="btn btn-primary navbar-btn btn-shadow bg-dark" href="{{ route('logout') }}"
                onclick="event.preventDefault();
                              document.getElementById('logout-form').submit();">Logout</a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
@@ -70,7 +69,7 @@
     <div id="scrollTop">
       <div class="d-flex align-items-center justify-content-end"><i class="fa fa-long-arrow-up"></i>To Top</div>
     </div>
-    <footer class="main-footer">
+    {{-- <footer class="main-footer">
       <div class="container">
         <div class="row">
           <div class="col-lg-3 col-md-6"><a href="#" class="brand">PicApp</a>
@@ -123,7 +122,7 @@
           </div>
         </div>
       </div>
-    </footer>
+    </footer> --}}
     <!-- Javascript files-->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"> </script>

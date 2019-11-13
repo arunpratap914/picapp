@@ -17,7 +17,8 @@
 Route::get('/', 'FrontController@index')->name('home');
 Route::get('/groups', 'HomeController@user_groups')->name('user_groups');
 Route::get('/groups/{id}', 'HomeController@group')->name('group');
-
+// Route::get('/groups/{id}', 'HomeController@group')->name('group');
+Route::view('/email', 'emails.newuser');
 Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');

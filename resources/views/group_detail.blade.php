@@ -13,20 +13,22 @@
 @section('content')
 <section id="features" class="features">
     <div class="container">
-        <h1>{{$group->name}}</h1>
+        <h1 class="text-white">{{$group->name}}</h1>
         <div class="row">
             @forelse ($group->images as $key => $image)
-            <a href="{{route('group',$group->id)}}">
-                <div class="col-md-6 align-items-center p-1">
+            <div class="col-md-3 align-items-center p-3">
+                    <a href="{{route('group',$group->id)}}">
                         <a href="{{asset('storage/images')}}/{{$image->filename}}" data-toggle="lightbox" data-gallery="gallery">
                             <img src="{{asset('storage/images/thumbnail')}}/{{$image->large}}" class="img-fluid rounded">
                         </a>
                     {{-- <h4>{{$image->filename}}</h4> --}}
-                </div>
-            </a>
+                </a>
+            </div>
             @empty
-        No image added to this group
-        @endforelse
+            <div class="col-md-12 pt-5 pl-5">
+                    <p class="text-white">No Image Added</p>
+                </div>
+            @endforelse
         </div>
 
     </div>

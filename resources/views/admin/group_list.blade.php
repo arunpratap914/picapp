@@ -59,6 +59,29 @@ Group List
                     <a href="{{route('group_images',$group->id)}}" class="btn btn-primary btn-sm text-gray-100">Images</a>
                 </td>
             </tr>
+            <!-- The Modal -->
+            <div class="modal" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Confirm Delete</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            Select "Delete" below if you want to delete this item.
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <a class="btn btn-primary" href="{{ route('delete_group',$group->id) }}">Delete</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
             @empty
             <tr>
               <td colspan="3"> No group Found</td>
@@ -71,29 +94,7 @@ Group List
 </div>
 
 
-<!-- The Modal -->
-<div class="modal" id="myModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
 
-        <!-- Modal Header -->
-        <div class="modal-header">
-            <h4 class="modal-title">Confirm Delete</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-
-        <!-- Modal body -->
-        <div class="modal-body">
-            Select "Delete" below if you want to delete this item.
-        </div>
-
-        <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="{{ route('delete_group',$group->id) }}">Delete</a>
-        </div>
-        </div>
-    </div>
-</div>
 @endsection
 
 
