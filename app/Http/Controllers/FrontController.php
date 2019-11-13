@@ -9,10 +9,12 @@ class FrontController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->is_admin) {
-            return redirect()->route('admin_dashboard');
-        } else if (Auth::user()->is_admin == 0) {
-            return redirect()->route('user_groups');
+        if (isset(Auth::user()->is_admin)) {
+            if (Auth::user()->is_admin) {
+                return redirect()->route('admin_dashboard');
+            } else if (Auth::user()->is_admin == 0) {
+                return redirect()->route('user_groups');
+            }
         }
         return view('home');
     }
