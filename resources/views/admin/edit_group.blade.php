@@ -38,6 +38,12 @@ Edit Group Detail
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
+                <div class="col-sm-12 mb-3 mb-sm-0 mt-3">
+                    <input type="text" class="form-control form-control-user @error('code') is-invalid @enderror" name="code" id="code" placeholder="Group Code" value="{{$group->code}}">
+                    @error('code')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
 
             </div>
             <button type="submit" class="btn btn-primary btn-user btn-block">

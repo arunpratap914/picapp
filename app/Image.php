@@ -10,4 +10,9 @@ class Image extends Model
     {
         return $this->belongsToMany('App\Group');
     }
+
+    public function likes()
+    {
+        return $this->hasMany('App\Like');
+    }
 }

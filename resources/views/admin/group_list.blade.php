@@ -38,6 +38,7 @@ Group List
             <tr>
               <th>#</th>
               <th>Name</th>
+              <th>Group Code</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -45,6 +46,7 @@ Group List
             <tr>
               <th>#</th>
               <th>Name</th>
+              <th>Group Code</th>
               <th>Action</th>
             </tr>
           </tfoot>
@@ -53,6 +55,7 @@ Group List
             <tr>
                 <td>{{$key+1}}</td>
                 <td>{{$group->name}}</td>
+                <td>{{$group->code}}</td>
                 <td>
                     <a href="{{ route('edit_group',$group->id) }}" class="btn btn-info btn-sm text-gray-100">Edit</a>
                     <button data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-sm text-gray-100">Delete</button>

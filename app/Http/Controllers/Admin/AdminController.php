@@ -14,6 +14,7 @@ use Image as Img;
 use App\Group_user;
 use App\Group_image;
 use Auth;
+use App\Like;
 
 class AdminController extends Controller
 {
@@ -202,7 +203,7 @@ class AdminController extends Controller
         $image = $request->file('file');
         $img = Img::make($image->getRealPath());
         $watermark = Img::make(public_path('/img/logo.png'));
-        $img->insert($watermark, 'bottom-right', 10, 10);
+        $img->insert($watermark, 'top', 10, 10);
         $img->save(public_path('storage/images/' . $filenametostore));
 
 
@@ -246,9 +247,11 @@ class AdminController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:groups,name',
+            'code' => 'required|unique:groups,code',
         ]);
         $group = new Group;
         $group->name = $request->name;
+        $group->code = $request->code;
         $group->save();
         return redirect()->route('group_list')->with('success', 'Group has been created.');
     }
@@ -266,8 +269,13 @@ class AdminController extends Controller
                 'required',
                 Rule::unique('groups')->ignore($group->id),
             ],
+            'code' => [
+                'required',
+                Rule::unique('groups')->ignore($group->id),
+            ],
         ]);
         $group->name = request('name');
+        $group->code = request('code');
         $group->save();
         return redirect()->back()->with('success', 'Group has been updated.');
     }
@@ -343,5 +351,20 @@ class AdminController extends Controller
         //DB::table('group_image')->where('image_id', $image)->where('group_id', $group)->delete();
         Group_image::where('image_id', $image)->where('group_id', $group)->delete();
         return response()->json(['success' => 'Image Deleted.', 'image' => $image]);
+    }
+
+    public function user_groups(Request $request)
+    {
+        //dd($request->user_id);
+        $user = User::find($request->user_id);
+        return view('admin.user_groups', ['user' => $user]);
+    }
+    public function user_group_liked_images(Request $request)
+    {
+        //dd($request->group_id);
+        $group = Group::find($request->group_id);
+        $user = User::find($request->user_id);
+        $likes = Like::all()->where('user_id', $request->user_id)->where('group_id', $request->group_id);
+        return view('admin.user_group_liked_images', ['likes' => $likes, 'group' => $group, 'num' => 1, 'user' => $user]);
     }
 }

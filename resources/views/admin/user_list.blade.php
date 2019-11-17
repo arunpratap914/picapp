@@ -60,6 +60,7 @@ User List
                     <a href="{{ route('edit_user',$user->id) }}" class="btn btn-info btn-sm text-gray-100">Edit</a>
                     <button class="btn btn-danger btn-sm text-gray-100" data-toggle="modal" data-target="#myModal">Delete</button>
                     <a href="{{ route('change_user_password',$user->id) }}" class="btn btn-primary btn-sm text-gray-100">Change Password</a>
+                    <a href="{{route('admin_user_groups',$user->id)}}" class="btn btn-success btn-sm">Detail</a>
                 </td>
             </tr>
             <!-- The Modal -->

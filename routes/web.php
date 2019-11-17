@@ -11,12 +11,15 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/test', function () {
+    factory(App\Group::class, 50)->create();
+    return "haha";
+});
 Route::get('/', 'FrontController@index')->name('home');
 Route::get('/groups', 'HomeController@user_groups')->name('user_groups');
-Route::get('/groups/{id}', 'HomeController@group')->name('group');
+Route::get('/groups/{id}/{likes?}', 'HomeController@group')->name('group');
+Route::post('/like', 'HomeController@like')->name('like');
+Route::post('/unlike', 'HomeController@unlike')->name('unlike');
 // Route::get('/groups/{id}', 'HomeController@group')->name('group');
 Route::view('/email', 'emails.newuser');
 Auth::routes();
@@ -66,4 +69,6 @@ Route::middleware(['admin'])->group(function () {
     Route::get('admin/group-images/{group}', 'Admin\AdminController@group_images')->name('group_images');
     Route::post('admin/add-group-images', 'Admin\AdminController@add_group_images')->name('add_group_images');
     Route::post('admin/remove-group-images', 'Admin\AdminController@remove_group_images')->name('remove_group_images');
+    Route::get('/admin/user/groups/{user_id}', 'Admin\AdminController@user_groups')->name('admin_user_groups');
+    Route::get('admin/user/group/image/likes/{user_id}/{group_id}', 'Admin\AdminController@user_group_liked_images')->name('admin_users_image_liked');
 });
