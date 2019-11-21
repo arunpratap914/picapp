@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{ asset('front/vendor/owl.carousel/assets/owl.carousel.css') }}">
     <link rel="stylesheet" href="{{ asset('front/vendor/owl.carousel/assets/owl.theme.default.css') }}">
     <!-- theme stylesheet-->
-    <link rel="stylesheet" href="{{ asset('front/css/style.default.css') }}" id="theme-stylesheet">
+    <link rel="stylesheet" href="{{ asset('front/css/style.default.css') }}?a=1" id="theme-stylesheet">
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="{{ asset('front/css/custom.css') }}">
 
