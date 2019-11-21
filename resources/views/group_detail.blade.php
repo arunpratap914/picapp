@@ -13,8 +13,28 @@
 .likebtn {
     cursor: pointer;
 }
+
+
+@media (min-width: 576px){
+    .modal-xl {
+        max-width: 500px;
+    }
+}
+@media (min-width: 992px){
+    .modal-xl {
+        max-width: 800px;
+    }
+}
+@media (min-width: 1200px){
+    .modal-xl {
+        max-width: 1140px;
+    }
+}
 </style>
 <meta name="csrf-token" content="{{ csrf_token() }}" />
+@endsection
+@section('location')
+<h5 class="text-white pl-2 text-right">Location For : {{$group->location}}</h5>
 @endsection
 @section('content')
 <section id="features" class="features">
@@ -27,7 +47,7 @@
         <div class="contaier">
             <div class="row">
                 <div class="col-md-12">
-                    <a href="{{route('user_groups')}}" class="btn btn-warning mb-3">Back</a>
+                    <a href="{{route('user_groups')}}" class="btn btn-warning mb-3">Back</a><br><br>
                     <h1 class="text-white">{{$group->name}}</h1>
                 </div>
             </div>
@@ -38,15 +58,22 @@
                 $img_array = json_encode($likes);
             @endphp
             <div class="text-right mb-5">
-                <a href="{{route('download_images',$img_array)}}" class="btn btn-primary">Download Images</a>
+
                 <a href="{{route('group',[$group->id])}}" class="btn btn-info">View all images</a>
+                <a href="{{route('download_images',$img_array)}}" class="btn btn-primary">Download Selection</a>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">View Selection As Slideshow</button>
             </div>
 
             <div class="row all_images" id='gallery'>
                 @if(!count($my_likes))
                 <p>No Image found</p>
                 @endif
+                @php
+                    $lk_img = "";
+                    $class_act = 'active';
+                @endphp
                 @forelse ($group->images as $key => $image)
+
                     @if(in_array($image->id,$my_likes))
                         @php
                             if(in_array($image->id,$likes)){
@@ -55,10 +82,12 @@
                             else{
                                 $action = "like";
                             }
+                            $lk_img .= '<div class="carousel-item '.$class_act.'">'.'<img src="'.asset('storage/images').'/'.$image->filename.'" alt="" class="w-100">'.'</div>';
+
                         @endphp
                         <div class="col-md-3">
                             <a href="{{asset('storage/images')}}/{{$image->filename}}">
-                                <div>
+                                <div class="aded">
                                     <img src="{{asset('storage/images/thumbnail')}}/{{$image->large}}" title="{{$image->title}}" class="w-100">
                                 </div>
                             </a>
@@ -67,13 +96,49 @@
                                 <span id="like_btn{{$image->id}}" class='likebtn pl-3 @if($action =="unlike") text-success @else text-secondary @endif' onclick='return like({{$image->id}},{{$group->id}},{{Auth::user()->id}});' style="font-size:20px;"><i class="fas fa-thumbs-up"></i></span>
                             </p>
                         </div>
+
                     @endif
+                    @php
+                        $class_act = 'no-active';
+                    @endphp
                 @empty
                     <div class="col-md-12 pt-5 pl-5">
                         <p class="text-white">No Image Added</p>
                     </div>
                 @endforelse
+
             </div>
+
+                        <!-- The Modal -->
+                        <div class="modal fade" id="myModal">
+                            <div class="modal-dialog modal-xl w-100 bg-dark" style="background:#333;">
+                            <div class="modal-content bg-dark">
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+
+                                    <div id="demo" class="carousel slide" data-ride="carousel" data-interval="4000">
+
+                                    <!-- The slideshow -->
+                                    <div class="carousel-inner">
+
+                                        {!!$lk_img!!}
+                                    </div>
+
+                                    <!-- Left and right controls -->
+                                    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                                        <span class="carousel-control-prev-icon"></span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#demo" data-slide="next">
+                                        <span class="carousel-control-next-icon"></span>
+                                    </a>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            </div>
+                        </div>
         @else
             <div class="text-right mb-5">
                 <a href="{{route('group',[$group->id,"my_likes"])}}" class="btn btn-info">View My Likes</a>

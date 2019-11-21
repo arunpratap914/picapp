@@ -33,11 +33,15 @@
   <body>
     <!-- navbar-->
     <header class="header">
-      <nav class="navbar navbar-expand-lg fixed-top bg-dark"><a href="{{route('user_groups')}}" class="navbar-brand"><img src="/images/header-the-network-film-productions-october16.png" alt=""></a>
+      <nav class="navbar navbar-expand-lg fixed-top bg-dark">
+          <div class="logo-area">
+            <a href="{{route('user_groups')}}" class="navbar-brand"><img src="/images/header-the-network-film-productions-october16.png" alt=""></a>
+            @yield('location')
+          </div>
         <button type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler navbar-toggler-right"><span></span><span></span><span></span></button>
         <div id="navbarSupportedContent" class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto align-items-start align-items-lg-center">
-            <li class="nav-item"><a @guest href="{{route('login')}}" @else href="{{route('user_groups')}}" @endguest  class="nav-link link-scroll text-white">My Groups</a></li>
+            <li class="nav-item"><a @guest href="{{route('login')}}" @else href="{{route('user_groups')}}" @endguest  class="nav-link link-scroll text-white">Location Menu</a></li>
             {{-- <li class="nav-item"><a href="#testimonials" class="nav-link link-scroll">Testimonials</a></li>
             <li class="nav-item"><a href="text.html" class="nav-link">Text Page</a></li> --}}
             @auth

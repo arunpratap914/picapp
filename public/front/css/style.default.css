@@ -1950,3 +1950,7 @@ body {
     color: #848484;
     background: #f3f3f3 url(/images/PAGE-BACKGROUND-TILE.jpg) center top repeat;
 }
+.btn {
+    border-radius: 0px;
+    margin: 0px 5px;
+}
