@@ -11,9 +11,13 @@
 |
 */
 
-Route::get('/test', function () {
+Route::get('/make_group', function () {
     factory(App\Group::class, 50)->create();
-    return "haha";
+    return "50 group created";
+});
+Route::get('/make_user', function () {
+    factory(App\User::class, 49)->create();
+    return "50 user created";
 });
 Route::get('/', 'FrontController@index')->name('home');
 Route::get('/groups', 'HomeController@user_groups')->name('user_groups');
@@ -22,6 +26,8 @@ Route::post('/like', 'HomeController@like')->name('like');
 Route::post('/unlike', 'HomeController@unlike')->name('unlike');
 // Route::get('/groups/{id}', 'HomeController@group')->name('group');
 Route::view('/email', 'emails.newuser');
+
+Route::get('download1/{images}', 'HomeController@downloadZip')->name('download_images');
 Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');
@@ -52,6 +58,9 @@ Route::middleware(['admin'])->group(function () {
     Route::post('admin/image/upload/store', 'Admin\AdminController@fileStore')->name('admin_store_image');
     // Route::post('admin/image/delete','Admin\AdminController@fileDestroy')->name('admin_destroy_image');
     Route::get('admin/images', 'Admin\AdminController@images')->name('admin_images');
+
+    Route::get('admin/group/image/upload/{group_id}', 'Admin\AdminController@fileCreate_group')->name('admin_upload_image_group');
+    Route::post('admin/group/image/upload/store/{group_id}', 'Admin\AdminController@fileStore_group')->name('admin_store_image_group');
 
 
     //Image Group routes

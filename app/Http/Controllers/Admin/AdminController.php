@@ -158,6 +158,13 @@ class AdminController extends Controller
         return view('admin.upload_images');
     }
 
+    public function fileCreate_group(Request $request)
+    {
+        $group = Group::find($request->group_id);
+        //var_dump($group);
+        return view('admin.upload_images_group', ['group' => $group]);
+    }
+
     public function fileStore(Request $request)
     {
         $filenamewithextension = $request->file('file')->getClientOriginalName();
@@ -209,11 +216,83 @@ class AdminController extends Controller
 
 
         $Image = new Image();
+        $Image->path = public_path('storage/images/' . $filenametostore);
         $Image->filename = $filenametostore;
         $Image->small = $smallthumbnail;
         $Image->medium = $mediumthumbnail;
         $Image->large = $largethumbnail;
         $Image->save();
+        return response()->json(['success' => $filenametostore]);
+    }
+    public function fileStore_group(Request $request)
+    {
+        //print_r($request->group_id);
+        //die;
+        $filenamewithextension = $request->file('file')->getClientOriginalName();
+
+        //get filename without extension
+        $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+
+        //get file extension
+        $extension = $request->file('file')->getClientOriginalExtension();
+
+        //filename to store
+        $filenametostore = $filename . '_' . time() . '.' . $extension;
+
+        //small thumbnail name
+        $smallthumbnail = $filename . '_small_' . time() . '.' . $extension;
+
+        //medium thumbnail name
+        $mediumthumbnail = $filename . '_medium_' . time() . '.' . $extension;
+
+        //large thumbnail name
+        $largethumbnail = $filename . '_large_' . time() . '.' . $extension;
+
+        //Upload File
+        //$request->file('file')->storeAs('public/images', $filenametostore);
+        $request->file('file')->storeAs('public/images/thumbnail', $smallthumbnail);
+        $request->file('file')->storeAs('public/images/thumbnail', $mediumthumbnail);
+        $request->file('file')->storeAs('public/images/thumbnail', $largethumbnail);
+
+        //create small thumbnail
+        $smallthumbnailpath = public_path('storage/images/thumbnail/' . $smallthumbnail);
+        $this->createThumbnail($smallthumbnailpath, 150, 93);
+
+        //create medium thumbnail
+        $mediumthumbnailpath = public_path('storage/images/thumbnail/' . $mediumthumbnail);
+        $this->createThumbnail($mediumthumbnailpath, 300, 185);
+
+        //create large thumbnail
+        $largethumbnailpath = public_path('storage/images/thumbnail/' . $largethumbnail);
+        $this->createThumbnail($largethumbnailpath, 550, 340);
+
+
+        // Add watermark
+        $image = $request->file('file');
+        $img = Img::make($image->getRealPath());
+        $watermark = Img::make(public_path('/img/logo.png'));
+        $img->insert($watermark, 'top', 10, 10);
+        $img->save(public_path('storage/images/' . $filenametostore));
+
+        $group = Group::find($request->group_id);
+
+        $Image = new Image();
+        $Image->path = public_path('storage/images/' . $filenametostore);
+        $Image->filename = $filenametostore;
+        $Image->small = $smallthumbnail;
+        $Image->medium = $mediumthumbnail;
+        $Image->large = $largethumbnail;
+        $Image->project_name = $group->name;
+        $Image->tag = $group->spec_tag;
+        $Image->tag_parsed = $group->spec_tag_parsed;
+        $Image->save();
+
+
+        $group_id = $request->group_id;
+        $group_image = new Group_image;
+        $group_image->image_id = $Image->id;
+        $group_image->group_id = $group_id;
+        $group_image->save();
         return response()->json(['success' => $filenametostore]);
     }
     public function createThumbnail($path, $width, $height)
@@ -248,12 +327,24 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|unique:groups,name',
             'code' => 'required|unique:groups,code',
+            'client' => 'string',
+            'location' => 'string',
+            // 'dated' => 'string',
+            'uploaded_by' => 'numeric',
+            'scouted_by' => 'string',
+            'spec_tag' => 'string',
         ]);
         $group = new Group;
         $group->name = $request->name;
         $group->code = $request->code;
+        $group->client = $request->client;
+        $group->location = $request->location;
+        // $group->dated = date('Y-m-d', strtotime($request->dated));
+        $group->uploaded_by = $request->uploaded_by;
+        $group->scouted_by = $request->scouted_by;
+        $group->spec_tag = $request->spec_tag;
         $group->save();
-        return redirect()->route('group_list')->with('success', 'Group has been created.');
+        return redirect()->route('group_list')->with('success', 'Project has been created.');
     }
 
     public function edit_group(Group $group)
@@ -273,17 +364,29 @@ class AdminController extends Controller
                 'required',
                 Rule::unique('groups')->ignore($group->id),
             ],
+            'client' => 'string',
+            'location' => 'string',
+            // 'dated' => 'string',
+            //'uploaded_by' => 'numeric',
+            'scouted_by' => 'string',
+            'spec_tag' => 'string',
         ]);
         $group->name = request('name');
         $group->code = request('code');
+        $group->client = request('client');
+        $group->location = request('location');
+        // $group->dated = date('Y-m-d', strtotime(request("dated")));
+        //$group->uploaded_by = request('uploaded_by');
+        $group->scouted_by = request('scouted_by');
+        $group->spec_tag = request('spec_tag');
         $group->save();
-        return redirect()->back()->with('success', 'Group has been updated.');
+        return redirect()->back()->with('success', 'Project has been updated.');
     }
 
     public function delete_group(Group $group)
     {
         $group->delete();
-        return redirect()->route('group_list')->with('success', 'Group has been deleted.');
+        return redirect()->route('group_list')->with('success', 'Project has been deleted.');
     }
     public function edit_image(Image $image)
     {

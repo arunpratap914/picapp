@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-Group List
+Project List
 @endsection
 @section('styles')
 <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
@@ -23,7 +23,7 @@ Group List
     <div class="card-header py-3">
       <div class="d-flex justify-content-between">
         <div class="">
-          <h6 class="m-0 font-weight-bold text-primary">Image Group List</h6>
+          <h6 class="m-0 font-weight-bold text-primary">Project List</h6>
         </div>
         <div class="">
           <a class="btn btn-success btn-sm" href="{{route('create_new_group')}}">Add New</a>
@@ -38,7 +38,7 @@ Group List
             <tr>
               <th>#</th>
               <th>Name</th>
-              <th>Group Code</th>
+              <th>Project Code</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -46,7 +46,7 @@ Group List
             <tr>
               <th>#</th>
               <th>Name</th>
-              <th>Group Code</th>
+              <th>Project Code</th>
               <th>Action</th>
             </tr>
           </tfoot>
@@ -87,7 +87,7 @@ Group List
                 </div>
             @empty
             <tr>
-              <td colspan="3"> No group Found</td>
+              <td colspan="3"> No Project Found</td>
             </tr>
             @endforelse
           </tbody>

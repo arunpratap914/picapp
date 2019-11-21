@@ -21,6 +21,9 @@ class CreateImagesTable extends Migration
             $table->text('large');
             $table->text('title')->nullable();
             $table->text('description')->nullable();
+            $table->string('project_name')->nullable();
+            $table->string('tag')->nullable();
+            $table->string('tag_parsed')->nullable();
             $table->timestamps();
         });
     }

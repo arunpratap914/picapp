@@ -32,10 +32,7 @@ class SendEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        // var_dump($this->user['email']);
-        // die;
         $email = $this->user['email'];
-        // var_dump($email);
         Mail::to($email)->send(new NewUserNotification($this->user));
     }
 }

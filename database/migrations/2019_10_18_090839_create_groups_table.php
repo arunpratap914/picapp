@@ -17,6 +17,13 @@ class CreateGroupsTable extends Migration
             $table->bigIncrements('id');
             $table->text('name');
             $table->string('code');
+            $table->string('client')->nullable();
+            $table->string('location')->nullable();
+            $table->date('dated')->nullable();
+            $table->integer('uploaded_by')->nullable();
+            $table->string('scouted_by')->nullable();
+            $table->string('spec_tag')->nullable();
+            $table->string('spec_tag_parsed')->nullable();
             $table->timestamps();
         });
     }

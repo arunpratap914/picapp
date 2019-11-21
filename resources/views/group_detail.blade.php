@@ -18,15 +18,30 @@
 @endsection
 @section('content')
 <section id="features" class="features">
-    <a href="{{route('user_groups')}}">Back</a>
+
 
     <div class="container">
         @php
             //var_dump(count($my_likes));
         @endphp
-        <h1 class="text-white">{{$group->name}}</h1>
+        <div class="contaier">
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="{{route('user_groups')}}" class="btn btn-warning mb-3">Back</a>
+                    <h1 class="text-white">{{$group->name}}</h1>
+                </div>
+            </div>
+        </div>
+
         @if($show_likes)
-            <a href="{{route('group',[$group->id])}}">View all</a>
+            @php
+                $img_array = json_encode($likes);
+            @endphp
+            <div class="text-right mb-5">
+                <a href="{{route('download_images',$img_array)}}" class="btn btn-primary">Download Images</a>
+                <a href="{{route('group',[$group->id])}}" class="btn btn-info">View all images</a>
+            </div>
+
             <div class="row all_images" id='gallery'>
                 @if(!count($my_likes))
                 <p>No Image found</p>
@@ -47,9 +62,10 @@
                                     <img src="{{asset('storage/images/thumbnail')}}/{{$image->large}}" title="{{$image->title}}" class="w-100">
                                 </div>
                             </a>
-                            <p class="text-white">{{$group->code}}-{{$image->id}}</p>
-                            <input type="hidden" id="inp_{{$image->id}}" value="{{$action}}">
-                            <span id="like_btn{{$image->id}}" class='likebtn display-4 @if($action =="unlike") text-success @else text-secondary @endif' onclick='return like({{$image->id}},{{$group->id}},{{Auth::user()->id}});'><i class="fas fa-thumbs-up"></i></span>
+                            <p class="text-white p-2">{{$group->code}}-{{$image->id}}
+                                <input type="hidden" id="inp_{{$image->id}}" value="{{$action}}">
+                                <span id="like_btn{{$image->id}}" class='likebtn pl-3 @if($action =="unlike") text-success @else text-secondary @endif' onclick='return like({{$image->id}},{{$group->id}},{{Auth::user()->id}});' style="font-size:20px;"><i class="fas fa-thumbs-up"></i></span>
+                            </p>
                         </div>
                     @endif
                 @empty
@@ -59,7 +75,9 @@
                 @endforelse
             </div>
         @else
-            <a href="{{route('group',[$group->id,"my_likes"])}}">View My Likes</a>
+            <div class="text-right mb-5">
+                <a href="{{route('group',[$group->id,"my_likes"])}}" class="btn btn-info">View My Likes</a>
+            </div>
             <div class="row all_images" id='gallery'>
                 @forelse ($group->images as $key => $image)
                     @php
@@ -76,9 +94,10 @@
                                 <img src="{{asset('storage/images/thumbnail')}}/{{$image->large}}" title="{{$image->title}}" class="w-100">
                             </div>
                         </a>
-                        <p class="text-white">{{$group->code}}-{{$image->id}}</p>
-                        <input type="hidden" id="inp_{{$image->id}}" value="{{$action}}">
-                        <span id="like_btn{{$image->id}}" class='likebtn display-4 @if($action =="unlike") text-success @else text-secondary @endif' onclick='return like({{$image->id}},{{$group->id}},{{Auth::user()->id}});'><i class="fas fa-thumbs-up"></i></span>
+                        <p class="text-white p-2">{{$group->code}}-{{$image->id}}
+                            <input type="hidden" id="inp_{{$image->id}}" value="{{$action}}">
+                            <span id="like_btn{{$image->id}}" class='pl-3 likebtn @if($action =="unlike") text-success @else text-secondary @endif' onclick='return like({{$image->id}},{{$group->id}},{{Auth::user()->id}});' style="font-size:20px;"><i class="fas fa-thumbs-up"></i></span>
+                        </p>
                     </div>
                 @empty
                     <div class="col-md-12 pt-5 pl-5">
@@ -186,6 +205,10 @@
                 }
             }
         });
+    }
+
+    function download(){
+
     }
 </script>
 

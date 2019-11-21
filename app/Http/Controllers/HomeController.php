@@ -10,6 +10,8 @@ use App\Group_user;
 use App\Group_image;
 use Auth;
 use App\Like;
+use File;
+use ZipArchive;
 
 class HomeController extends Controller
 {
@@ -83,5 +85,28 @@ class HomeController extends Controller
         }
         $like = Like::where('user_id', $request->user_id)->where('image_id', $request->image_id)->where('group_id', $request->group_id)->delete();
         return response()->json(['success' => 'unliked' . $request->user_id . $request->image_id . $request->group_id, 'action' => 'unlike']);
+    }
+    function downloadZip(Request $request)
+    {
+        $str = str_replace("[", "", $request->images);
+        $str = str_replace("]", "", $str);
+        $images = explode(",", $str);
+        $zip = new ZipArchive;
+
+        $fileName = 'images/myimages.zip';
+        if (file_exists($fileName)) {
+            unlink($fileName);
+        }
+        if ($zip->open(public_path($fileName), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+            foreach ($images as $key => $image) {
+                $im = Image::find($image);
+                if ($im->path != "") {
+                    $relativeNameInZipFile = basename($im->path);
+                    $zip->addFile($im->path, $relativeNameInZipFile);
+                }
+            }
+            $zip->close();
+            return response()->download(public_path($fileName));
+        }
     }
 }

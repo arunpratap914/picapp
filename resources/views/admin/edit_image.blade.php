@@ -38,13 +38,22 @@ Edit Image Detail
             {{ method_field('patch') }}
             <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="text" class="form-control form-control-user @error('title') is-invalid @enderror" name="title" id="title" placeholder="Enter title..." value="{{$image->title}}">
+                    <label>Tags :-</label>
+                    <input type="text" class="form-control form-control-user @error('tag') is-invalid @enderror" name="tag" id="tag" value="{{$image->tag}}">
+                    @error('tag')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label>Title :-</label>
+                    <input type="text" class="form-control form-control-user @error('title') is-invalid @enderror" name="title" id="title" value="{{$image->title}}">
                     @error('title')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="text" class="form-control form-control-user @error('description') is-invalid @enderror" name="description" id="description" placeholder="Enter description..." value="{{$image->description}}">
+                    <label>Description :-</label>
+                    <input type="text" class="form-control form-control-user @error('description') is-invalid @enderror" name="description" id="description" value="{{$image->description}}">
                     @error('description')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror

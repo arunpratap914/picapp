@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-Group Images
+Project Images
 @endsection
 
 @section('styles')
@@ -17,10 +17,11 @@ Group Images
     <div class="card-header py-3">
       <div class="d-flex justify-content-between">
         <div class="">
-            <h6 class="m-0 font-weight-bold text-primary">Group Images</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Project Images</h6>
         </div>
         <div class="">
-          <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">Add More</button>
+          <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Select From Library</button>
+        <a href="{{route('admin_upload_image_group',$group->id)}}" class="btn btn-success btn-sm">Upload</a>
           <a class="btn btn-warning btn-sm" href="{{route('group_list')}}">Back</a>
         </div>
       </div>

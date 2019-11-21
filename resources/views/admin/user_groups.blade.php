@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-User Images Groups
+User Projects
 @endsection
 
 @section('styles')
@@ -19,7 +19,7 @@ User Images Groups
     <div class="card-header">
       <div class="d-flex justify-content-between">
         <div class="">
-          <h6 class="font-weight-bold text-primary">User Groups</h6>
+          <h6 class="font-weight-bold text-primary">User Projects</h6>
         </div>
         <div class="">
             <a class="btn btn-warning btn-sm" href="{{route('user_list')}}">Back</a>

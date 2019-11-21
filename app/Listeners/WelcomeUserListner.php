@@ -18,9 +18,6 @@ class WelcomeUserListner
      */
     public function handle($event)
     {
-        //var_dump($event->user['email']);
-        //die;
-        SendEmailJob::dispatch($event->user)
-            ->delay(now()->addSeconds(2));
+        SendEmailJob::dispatch($event->user)->delay(now()->addSeconds(2));
     }
 }

@@ -59,7 +59,7 @@
       <li class="nav-item">
         <a class="nav-link" href="{{route('group_list')}}">
           <i class="fas fa-fw fa-list-alt"></i>
-          <span>Groups</span></a>
+          <span>Projects</span></a>
       </li>
 
       <li class="nav-item">

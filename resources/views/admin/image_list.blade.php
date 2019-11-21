@@ -47,7 +47,7 @@ Images
                 <tr>
                   <th width="2%">#</th>
                   <th width="15%">Image</th>
-                  <th>Title</th>
+                  <th>Tags</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -55,7 +55,7 @@ Images
                 <tr>
                   <th>#</th>
                   <th>Image</th>
-                  <th>Title</th>
+                  <th>Tags</th>
                   <th>Action</th>
                 </tr>
               </tfoot>
@@ -68,7 +68,7 @@ Images
                                 <img src="{{asset('storage/images/thumbnail')}}/{{$image->small}}" class="img-fluid rounded">
                             </a>
                     </td>
-                    <td>{{$image->title}}</td>
+                    <td>{{$image->tag}}</td>
                     <td>
                       <a href="{{ route('edit_image',$image->id) }}" class="btn btn-info btn-sm text-gray-100">Edit</a>
                     <button data-toggle="modal" data-target="#myModal{{$image->id}}" class="btn btn-danger btn-sm">Delete</button>
