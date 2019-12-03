@@ -47,7 +47,7 @@
         <div class="contaier">
             <div class="row">
                 <div class="col-md-12">
-                    <a href="{{route('user_groups')}}" class="btn btn-warning mb-3">Back</a><br><br>
+                    <a href="{{route('user_groups')}}" class="btn btn-warning mb-3 blue">Back</a><br><br>
                     <h1 class="text-white">{{$group->name}}</h1>
                 </div>
             </div>
@@ -59,9 +59,9 @@
             @endphp
             <div class="text-right mb-5">
 
-                <a href="{{route('group',[$group->id])}}" class="btn btn-info">View all images</a>
-                <a href="{{route('download_images',$img_array)}}" class="btn btn-primary">Download Selection</a>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">View Selection As Slideshow</button>
+                <a href="{{route('group',[$group->id])}}" class="btn btn-info blue">View all images</a>
+                <a href="{{route('download_images',$img_array)}}" class="btn btn-primary red">Download Selection</a>
+                <button type="button" class="btn btn-primary blue" data-toggle="modal" data-target="#myModal">View Selection As Slideshow</button>
             </div>
 
             <div class="row all_images" id='gallery'>
@@ -70,7 +70,6 @@
                 @endif
                 @php
                     $lk_img = "";
-                    $class_act = 'active';
                 @endphp
                 @forelse ($group->images as $key => $image)
 
@@ -82,7 +81,12 @@
                             else{
                                 $action = "like";
                             }
-                            $lk_img .= '<div class="carousel-item '.$class_act.'">'.'<img src="'.asset('storage/images').'/'.$image->filename.'" alt="" class="w-100">'.'</div>';
+                            if($key == 0){
+                                $clss = "active";
+                            }else{
+                                $clss = "no-active";
+                            }
+                            $lk_img .= '<div class="carousel-item '.$clss.'">'.'<img src="'.asset('storage/images').'/'.$image->filename.'" alt="" class="w-100">'.'</div>';
 
                         @endphp
                         <div class="col-md-3">
@@ -98,9 +102,6 @@
                         </div>
 
                     @endif
-                    @php
-                        $class_act = 'no-active';
-                    @endphp
                 @empty
                     <div class="col-md-12 pt-5 pl-5">
                         <p class="text-white">No Image Added</p>
@@ -141,7 +142,7 @@
                         </div>
         @else
             <div class="text-right mb-5">
-                <a href="{{route('group',[$group->id,"my_likes"])}}" class="btn btn-info">View My Likes</a>
+                <a href="{{route('group',[$group->id,"my_likes"])}}" class="btn btn-info red">View My Likes</a>
             </div>
             <div class="row all_images" id='gallery'>
                 @forelse ($group->images as $key => $image)
