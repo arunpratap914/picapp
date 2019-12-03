@@ -21,7 +21,7 @@
     <!-- theme stylesheet-->
     <link rel="stylesheet" href="{{ asset('front/css/style.default.css') }}?a=1" id="theme-stylesheet">
     <!-- Custom stylesheet - for your changes-->
-    <link rel="stylesheet" href="{{ asset('front/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('front/css/custom.css') }}?ref=1">
 
     @yield('styles')
     <!-- Favicon-->
