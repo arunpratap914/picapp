@@ -21,7 +21,7 @@
     <!-- theme stylesheet-->
     <link rel="stylesheet" href="{{ asset('front/css/style.default.css') }}?a=1" id="theme-stylesheet">
     <!-- Custom stylesheet - for your changes-->
-    <link rel="stylesheet" href="{{ asset('front/css/custom.css') }}?ref=1">
+    <link rel="stylesheet" href="{{ asset('front/css/custom.css') }}?ref=2">
 
     @yield('styles')
     <!-- Favicon-->
@@ -35,8 +35,17 @@
     <header class="header">
       <nav class="navbar navbar-expand-lg fixed-top bg-dark">
           <div class="logo-area">
-            <a href="{{route('user_groups')}}" class="navbar-brand"><img src="/images/header-the-network-film-productions-october16.png" alt=""></a>
-            @yield('location')
+            <span class="navbar-brand">
+                <span>
+                    <img src="/images/the_network.png?loho " alt="The Network Logo">
+                </span>
+                <span class="text-white" style="vertical-align:middle;"><span style="font-size: 20px;font-weight: 500;letter-spacing: 0.5px;text-transform: uppercase;">The Network Productions International</span>
+
+                    @yield('location')
+                </span>
+
+            </span>
+
           </div>
         <button type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler navbar-toggler-right"><span></span><span></span><span></span></button>
         <div id="navbarSupportedContent" class="collapse navbar-collapse">

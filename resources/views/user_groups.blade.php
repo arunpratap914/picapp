@@ -5,7 +5,7 @@
 @section('content')
 <section id="features" class="features">
     <div class="container">
-        <h1 class="text-white">Your image groups</h1>
+        <h2 class="text-white">Your Location Menu</h2><br>
         <div class="row">
             @forelse ($user->groups as $key => $group)
             <div class="col-md-6 p-3">

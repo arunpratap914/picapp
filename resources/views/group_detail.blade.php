@@ -34,7 +34,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 @endsection
 @section('location')
-<h5 class="text-white pl-2 text-right">Location For : {{$group->location}}</h5>
+<br><span class="text-uppercase" style="font-size: 20px;"><span style="color:#8a8a8a;">Locations For :</span> <span style="color:#b7b7b7;">{{$group->location}}</span></span>
 @endsection
 @section('content')
 <section id="features" class="features">
@@ -47,8 +47,32 @@
         <div class="contaier">
             <div class="row">
                 <div class="col-md-12">
-                    <a href="{{route('user_groups')}}" class="btn btn-warning mb-3 blue">Back</a><br><br>
-                    <h1 class="text-white">{{$group->name}}</h1>
+                    @if($show_likes)
+                        <a href="{{route('group',[$group->id])}}" class="btn btn-warning mb-3 blue"><i class="fas fa-long-arrow-alt-left"></i> &nbsp; Back</a><br><br>
+                    @else
+                        <a href="{{route('user_groups')}}" class="btn btn-warning mb-3 blue"><i class="fas fa-long-arrow-alt-left"></i> &nbsp; Back</a><br><br>
+                    @endif
+                </div>
+                <div class="col-md-6 my-auto">
+                    <h2 class="text-white mb-5">{{$group->name}}</h2>
+                </div>
+                <div class="col-md-1"><br></div>
+                <div class="col-md-5">
+                    @if($show_likes)
+                    @php
+                        $img_array = json_encode($likes);
+                    @endphp
+                        <div class="mb-5">
+                            <a href="{{route('group',[$group->id])}}" class="btn btn-info blue d-block mb-3 w-100">View all images</a>
+                            <button type="button" class="btn btn-primary blue d-block w-100 mb-3" data-toggle="modal" data-target="#myModal">View As Slideshow</button>
+                            <a href="{{route('download_images',$img_array)}}" class="btn btn-primary red d-block w-100">Download Selection</a>
+
+                        </div>
+                    @else
+                        <div class="mb-5">
+                            <a href="{{route('group',[$group->id,"my_likes"])}}" class="btn btn-info blue d-block w-100">View Selection</a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -57,12 +81,7 @@
             @php
                 $img_array = json_encode($likes);
             @endphp
-            <div class="text-right mb-5">
 
-                <a href="{{route('group',[$group->id])}}" class="btn btn-info blue">View all images</a>
-                <a href="{{route('download_images',$img_array)}}" class="btn btn-primary red">Download Selection</a>
-                <button type="button" class="btn btn-primary blue" data-toggle="modal" data-target="#myModal">View Selection As Slideshow</button>
-            </div>
 
             <div class="row all_images" id='gallery'>
                 @if(!count($my_likes))
@@ -70,6 +89,7 @@
                 @endif
                 @php
                     $lk_img = "";
+                    $counter = 0;
                 @endphp
                 @forelse ($group->images as $key => $image)
 
@@ -81,7 +101,7 @@
                             else{
                                 $action = "like";
                             }
-                            if($key == 0){
+                            if($counter == 0){
                                 $clss = "active";
                             }else{
                                 $clss = "no-active";
@@ -95,11 +115,19 @@
                                     <img src="{{asset('storage/images/thumbnail')}}/{{$image->large}}" title="{{$image->title}}" class="w-100">
                                 </div>
                             </a>
-                            <p class="text-white p-2">{{$group->code}}-{{$image->id}}
-                                <input type="hidden" id="inp_{{$image->id}}" value="{{$action}}">
-                                <span id="like_btn{{$image->id}}" class='likebtn pl-3 @if($action =="unlike") text-success @else text-secondary @endif' onclick='return like({{$image->id}},{{$group->id}},{{Auth::user()->id}});' style="font-size:20px;"><i class="fas fa-thumbs-up"></i></span>
+                            <p class="text-white p-2"><span style="width: 50%;display: inline-block;white-space: nowrap;overflow: hidden;cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="Click To Copy" class="image-id-class">{{$group->code}}-{{$image->id}}</span>
+                                <span style="display: inline-block;vertical-align: top;width: 48%;text-align: right;">
+                                    <input type="hidden" id="inp_{{$image->id}}" value="{{$action}}">
+                                    <span id="like_btn{{$image->id}}" class='pl-3 likebtn @if($action =="unlike") text-success @else text-secondary @endif' onclick='return like({{$image->id}},{{$group->id}},{{Auth::user()->id}});' style="font-size:16px;">
+                                    @php
+                                        if($action =="unlike") echo "UNSELECT"; else echo "SELECT";
+                                    @endphp</span>
+                                </span>
                             </p>
                         </div>
+                        @php
+                            $counter = $counter+1;
+                        @endphp
 
                     @endif
                 @empty
@@ -116,7 +144,7 @@
                             <div class="modal-content bg-dark">
 
                                 <!-- Modal body -->
-                                <div class="modal-body">
+                                <div class="modal-body p-3">
 
                                     <div id="demo" class="carousel slide" data-ride="carousel" data-interval="4000">
 
@@ -141,9 +169,6 @@
                             </div>
                         </div>
         @else
-            <div class="text-right mb-5">
-                <a href="{{route('group',[$group->id,"my_likes"])}}" class="btn btn-info red">View My Likes</a>
-            </div>
             <div class="row all_images" id='gallery'>
                 @forelse ($group->images as $key => $image)
                     @php
@@ -160,9 +185,14 @@
                                 <img src="{{asset('storage/images/thumbnail')}}/{{$image->large}}" title="{{$image->title}}" class="w-100">
                             </div>
                         </a>
-                        <p class="text-white p-2">{{$group->code}}-{{$image->id}}
-                            <input type="hidden" id="inp_{{$image->id}}" value="{{$action}}">
-                            <span id="like_btn{{$image->id}}" class='pl-3 likebtn @if($action =="unlike") text-success @else text-secondary @endif' onclick='return like({{$image->id}},{{$group->id}},{{Auth::user()->id}});' style="font-size:20px;"><i class="fas fa-thumbs-up"></i></span>
+                        <p class="text-white p-2"><span style="width: 50%;display: inline-block;white-space: nowrap;overflow: hidden;cursor: pointer;" title="Click To Copy" data-toggle="tooltip" data-placement="bottom" class="image-id-class">{{$group->code}}-{{$image->id}}</span>
+                            <span style="display: inline-block;vertical-align: top;width: 48%;text-align: right;">
+                                <input type="hidden" id="inp_{{$image->id}}" value="{{$action}}">
+                                <span id="like_btn{{$image->id}}" class='pl-3 likebtn @if($action =="unlike") text-success @else text-secondary @endif' onclick='return like({{$image->id}},{{$group->id}},{{Auth::user()->id}});' style="font-size:16px;">
+                                @php
+                                    if($action =="unlike") echo "UNSELECT"; else echo "SELECT";
+                                @endphp</span>
+                            </span>
                         </p>
                     </div>
                 @empty
@@ -265,9 +295,11 @@
                 if (data.action == "like") {
                     $("#like_btn"+image_id).addClass('text-success');
                     $("#inp_"+image_id).val('unlike');
+                    $("#like_btn"+image_id).html("UNSELECT");
                 }else{
                     $("#like_btn"+image_id).addClass('text-secondary').removeClass('text-success');
                     $("#inp_"+image_id).val('like');
+                    $("#like_btn"+image_id).html("SELECT");
                 }
             }
         });
@@ -276,6 +308,31 @@
     function download(){
 
     }
+
+    $(".image-id-class").click(function(){
+        varcopy = $(this).html();
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val(varcopy).select();
+        document.execCommand("copy");
+        $temp.remove();
+        $(this).tooltip('hide')
+          .attr('data-original-title', 'Copied!')
+          .tooltip('show');
+        app = this;
+        function change_it(){
+            console.log('hello')
+            $(app).tooltip('hide')
+            .attr('data-original-title', 'Click To Copy');
+        }
+        setTimeout(change_it, 2000)
+
+          //.tooltip({delay: 500})
+          //.tooltip('hide')
+    });
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
 </script>
 
 
