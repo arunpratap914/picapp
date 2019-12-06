@@ -168,7 +168,8 @@ class AdminController extends Controller
     public function fileStore(Request $request)
     {
         $filenamewithextension = $request->file('file')->getClientOriginalName();
-
+        $foldername = explode("_", $filenamewithextension);
+        //var_dump($extensionname);
         //get filename without extension
         $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
 
@@ -221,6 +222,7 @@ class AdminController extends Controller
         $Image->small = $smallthumbnail;
         $Image->medium = $mediumthumbnail;
         $Image->large = $largethumbnail;
+        $Image->title = $foldername[0];
         $Image->save();
         return response()->json(['success' => $filenametostore]);
     }
@@ -229,7 +231,7 @@ class AdminController extends Controller
         //print_r($request->group_id);
         //die;
         $filenamewithextension = $request->file('file')->getClientOriginalName();
-
+        $foldername = explode("_", $filenamewithextension);
         //get filename without extension
         $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
 
@@ -285,6 +287,7 @@ class AdminController extends Controller
         $Image->project_name = $group->name;
         $Image->tag = $group->spec_tag;
         $Image->tag_parsed = $group->spec_tag_parsed;
+        $Image->title = $foldername[0];
         $Image->save();
 
 
@@ -305,7 +308,7 @@ class AdminController extends Controller
     }
     public function images()
     {
-        $images = Image::all();
+        $images = Image::latest('created_at')->get();;
         $groups = Group::all();
 
         return view('admin.image_list', ['images' => $images, "groups" => $groups]);

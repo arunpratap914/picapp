@@ -12,7 +12,7 @@ Upload Images
     <div class="card-header py-3">
       <div class="d-flex justify-content-between">
           <div class="">
-            <h6 class="m-0 font-weight-bold text-primary">Upload Images</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Folder Upload Images</h6>
           </div>
           <div class="">
             <a class="btn btn-warning btn-sm" href="{{route('group_images',$group->id)}}">Back</a>
@@ -32,6 +32,7 @@ Upload Images
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js"></script>
 
 <script type="text/javascript">
+Dropzone.autoDiscover = false;
 $.ajaxSetup({
 
         headers: {
@@ -43,15 +44,24 @@ $.ajaxSetup({
         });
         Dropzone.options.dropzone =
          {
-            maxFilesize: 12,
+            maxFilesize: 100,
             renameFile: function(file) {
+
+                relativePath = file.webkitRelativePath;
+                var folder = relativePath.split("/");
+                console.log(folder[0]);
+
                 var dt = new Date();
                 var time = dt.getTime();
-               return time+file.name;
+                return folder[0]+'_'+time+file.name;
+
             },
             acceptedFiles: ".jpeg,.jpg,.png,.gif",
             addRemoveLinks: false,
             timeout: 5000,
+
+
+
 
             success: function(file, response)
             {
@@ -61,6 +71,12 @@ $.ajaxSetup({
             {
                return false;
             }
+
 };
+$("#dropzone").dropzone({
+    init: function() {
+        this.hiddenFileInput.setAttribute("webkitdirectory", true);
+    }
+});
 </script>
 @endsection

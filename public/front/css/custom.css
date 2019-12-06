@@ -1,7 +1,7 @@
 /* your styles go here */
 @font-face {
     font-family: Helvetica;
-    src: url("/public/font/fonts/HelveticaNeue.ttf");
+    src: url("HelveticaNeueMed.ttf");
 }
 body {
     font-family: Helvetica, sans-serif !important;
