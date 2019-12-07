@@ -64,7 +64,7 @@ class AdminController extends Controller
 
     public function user_list()
     {
-        $users = User::all()->where('is_admin', 0);
+        $users = User::latest('created_at')->get()->where('is_admin', 0);
         return view('admin.user_list', ['users' => $users]);
     }
 
@@ -222,7 +222,9 @@ class AdminController extends Controller
         $Image->small = $smallthumbnail;
         $Image->medium = $mediumthumbnail;
         $Image->large = $largethumbnail;
-        $Image->title = $foldername[0];
+        if (count($foldername) > 1) {
+            $Image->title = $foldername[0];
+        }
         $Image->save();
         return response()->json(['success' => $filenametostore]);
     }
@@ -287,7 +289,9 @@ class AdminController extends Controller
         $Image->project_name = $group->name;
         $Image->tag = $group->spec_tag;
         $Image->tag_parsed = $group->spec_tag_parsed;
-        $Image->title = $foldername[0];
+        if (count($foldername) > 1) {
+            $Image->title = $foldername[0];
+        }
         $Image->save();
 
 
@@ -316,7 +320,7 @@ class AdminController extends Controller
 
     public function group_list()
     {
-        $groups = Group::all();
+        $groups = Group::latest('created_at')->get();
         return view('admin.group_list', ['groups' => $groups]);
     }
 
@@ -328,8 +332,10 @@ class AdminController extends Controller
     public function save_new_group(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:groups,name',
-            'code' => 'required|unique:groups,code',
+            //'name' => 'required|unique:groups,name',
+            //'code' => 'required|unique:groups,code',
+            'name' => 'required',
+            'code' => 'required',
             'client' => 'string',
             'location' => 'string',
             // 'dated' => 'string',
@@ -347,7 +353,7 @@ class AdminController extends Controller
         $group->scouted_by = $request->scouted_by;
         $group->spec_tag = $request->spec_tag;
         $group->save();
-        return redirect()->route('group_list')->with('success', 'Project has been created.');
+        return redirect()->route('group_images', $group->id)->with('success', 'Project has been created.');
     }
 
     public function edit_group(Group $group)

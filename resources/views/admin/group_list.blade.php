@@ -26,7 +26,7 @@ Project List
           <h6 class="m-0 font-weight-bold text-primary">Project List</h6>
         </div>
         <div class="">
-          <a class="btn btn-success btn-sm" href="{{route('create_new_group')}}">Add New</a>
+          <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal2">Add New</button>
         </div>
       </div>
     </div>
@@ -96,6 +96,81 @@ Project List
     </div>
 </div>
 
+
+<!-- The Modal -->
+  <div class="modal" id="myModal2">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Create New Project</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body p-4">
+            <form class="user" method="POST" action="{{ route('save_new_group') }}">
+                @csrf
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <label for="name">Name :-</label>
+                        <input type="text" class="form-control form-control-user @error('name') is-invalid @enderror" name="name" id="name" required>
+                        @error('name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-sm-12 mb-3 mb-sm-0 mt-3">
+                        <label for="code">Unique Code :-</label>
+                        <input type="text" class="form-control form-control-user @error('code') is-invalid @enderror" name="code" id="code" required>
+                        @error('code')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-sm-12 mb-3 mb-sm-0 mt-3">
+                        <label for="client">Client :-</label>
+                        <input type="text" class="form-control form-control-user @error('client') is-invalid @enderror" name="client" id="client" required>
+                        @error('client')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-sm-12 mb-3 mb-sm-0 mt-3">
+                        <label for="location">Location :-</label>
+                        <input type="text" class="form-control form-control-user @error('location') is-invalid @enderror" name="location" id="location" required>
+                        @error('location')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <input type="hidden" name="uploaded_by" id="uploaded_by" value="{{Auth::user()->id}}">
+                    <div class="col-sm-12 mb-3 mb-sm-0 mt-3">
+                        <label for="scouted_by">Scouted By :-</label>
+                        <input type="text" class="form-control form-control-user @error('scouted_by') is-invalid @enderror" name="scouted_by" id="scouted_by" required>
+                        @error('scouted_by')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-sm-12 mb-3 mb-sm-0 mt-3">
+                        <label for="spec_tag">Tags :-</label>
+                        <input type="text" class="form-control form-control-user @error('spec_tag') is-invalid @enderror" name="spec_tag" id="spec_tag" required>
+                        @error('spec_tag')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-user btn-block">
+                Create Project
+                </button>
+            </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
 
 @endsection

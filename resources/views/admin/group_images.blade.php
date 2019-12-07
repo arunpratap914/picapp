@@ -17,7 +17,7 @@ Project Images
     <div class="card-header py-3">
       <div class="d-flex justify-content-between">
         <div class="">
-            <h6 class="m-0 font-weight-bold text-primary">Project Images</h6>
+        <h6 class="m-0 font-weight-bold text-primary">{{$group->name}} Project Images</h6>
         </div>
         <div class="">
           <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Select From Library</button>
