@@ -53,11 +53,11 @@
                         <a href="{{route('user_groups')}}" class="btn btn-warning mb-3 blue"><i class="fas fa-long-arrow-alt-left"></i> &nbsp; Back</a><br><br>
                     @endif
                 </div>
-                <div class="col-md-6 my-auto">
+                <div class="col-md-7 my-auto">
                     <h2 class="text-white mb-5">{{$group->name}}</h2>
                 </div>
                 <div class="col-md-1"><br></div>
-                <div class="col-md-5">
+                <div class="col-md-4">
                     @if($show_likes)
                     @php
                         $img_array = json_encode($likes);
@@ -115,10 +115,10 @@
                                     <img src="{{asset('storage/images/thumbnail')}}/{{$image->large}}" title="{{$image->title}}" class="w-100">
                                 </div>
                             </a>
-                            <p class="text-white p-2"><span style="width: 50%;display: inline-block;white-space: nowrap;overflow: hidden;cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="Click To Copy" class="image-id-class">{{$group->code}}-{{$image->id}}</span>
+                            <p class="text-white p-2"><span style="width: 50%;display: inline-block;white-space: nowrap;overflow: hidden;cursor: pointer;font-size:14px;" data-toggle="tooltip" data-placement="bottom" title="Click To Copy" class="image-id-class">{{$group->code}}-{{$image->id}}</span>
                                 <span style="display: inline-block;vertical-align: top;width: 48%;text-align: right;">
                                     <input type="hidden" id="inp_{{$image->id}}" value="{{$action}}">
-                                    <span id="like_btn{{$image->id}}" class='pl-3 likebtn @if($action =="unlike") text-success @else text-secondary @endif' onclick='return like({{$image->id}},{{$group->id}},{{Auth::user()->id}});' style="font-size:16px;">
+                                    <span id="like_btn{{$image->id}}" class='pl-3 likebtn @if($action =="unlike") text-success @else text-secondary @endif' onclick='return like({{$image->id}},{{$group->id}},{{Auth::user()->id}});' style="font-size:14px;">
                                     @php
                                         if($action =="unlike") echo "UNSELECT"; else echo "SELECT";
                                     @endphp</span>
@@ -140,6 +140,7 @@
 
                         <!-- The Modal -->
                         <div class="modal fade" id="myModal">
+                            <button type="button" class="btn btn-primary close red" data-dismiss="modal" style="font-size: 24px!important;line-height: 24px;">&times;</button>
                             <div class="modal-dialog modal-xl w-100 bg-dark" style="background:#333;">
                             <div class="modal-content bg-dark">
 
@@ -185,10 +186,10 @@
                                 <img src="{{asset('storage/images/thumbnail')}}/{{$image->large}}" title="{{$image->title}}" class="w-100">
                             </div>
                         </a>
-                        <p class="text-white p-2"><span style="width: 50%;display: inline-block;white-space: nowrap;overflow: hidden;cursor: pointer;" title="Click To Copy" data-toggle="tooltip" data-placement="bottom" class="image-id-class">{{$group->code}}-{{$image->id}}</span>
+                        <p class="text-white p-2"><span style="width: 50%;display: inline-block;white-space: nowrap;overflow: hidden;cursor: pointer;font-size:14px;" title="Click To Copy" data-toggle="tooltip" data-placement="bottom" class="image-id-class">{{$group->code}}-{{$image->id}}</span>
                             <span style="display: inline-block;vertical-align: top;width: 48%;text-align: right;">
                                 <input type="hidden" id="inp_{{$image->id}}" value="{{$action}}">
-                                <span id="like_btn{{$image->id}}" class='pl-3 likebtn @if($action =="unlike") text-success @else text-secondary @endif' onclick='return like({{$image->id}},{{$group->id}},{{Auth::user()->id}});' style="font-size:16px;">
+                                <span id="like_btn{{$image->id}}" class='pl-3 likebtn @if($action =="unlike") text-success @else text-secondary @endif' onclick='return like({{$image->id}},{{$group->id}},{{Auth::user()->id}});' style="font-size:14px;">
                                 @php
                                     if($action =="unlike") echo "UNSELECT"; else echo "SELECT";
                                 @endphp</span>

@@ -7,13 +7,13 @@ body {
     font-family: Helvetica, sans-serif !important;
 }
 .red {
-    background: #8b2037 !important;
-    border: 2px solid #31398a !important;
+    background: #ec3837 !important;
+    border: 2px solid #30368c !important;
     color: white !important;
 }
 .blue {
-    background: #31398a !important;
-    border: 2px solid #31398a !important;
+    background: #30368c !important;
+    border: 2px solid #30368c !important;
     color: white !important;
 }
 .blue,
