@@ -47,7 +47,8 @@ Images
                 <tr>
                   <th width="2%">#</th>
                   <th width="15%">Image</th>
-                  <th>Tags</th>
+                  <th>Project Tag</th>
+                  <th>Folder Tag*</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -55,7 +56,8 @@ Images
                 <tr>
                   <th>#</th>
                   <th>Image</th>
-                  <th>Tags</th>
+                  <th>Project Tag</th>
+                  <th>Folder Tag*</th>
                   <th>Action</th>
                 </tr>
               </tfoot>
@@ -69,6 +71,7 @@ Images
                             </a>
                     </td>
                     <td>{{$image->tag}}</td>
+                    <td>{{$image->title}}</td>
                     <td>
                       <a href="{{ route('edit_image',$image->id) }}" class="btn btn-info btn-sm text-gray-100">Edit</a>
                     <button data-toggle="modal" data-target="#myModal{{$image->id}}" class="btn btn-danger btn-sm">Delete</button>

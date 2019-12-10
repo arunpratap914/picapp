@@ -41,6 +41,12 @@ Upload Images
         </form>
     </div>
 </div>
+<div class="black-back" style="position: absolute;width: 100%;left: 0px;top: 0px;background: rgba(0, 0, 0, 0.3);height: 100%;display:none;">
+    <div class="class-open" style="position: absolute;top: 10%;right: 2%;background: #bf0303;color: white;padding: 10px 20px;font-size: 20px;">
+        Please wait while uploading..
+    </div>
+</div>
+
 @endsection
 
 @section('scripts')
@@ -58,6 +64,7 @@ $.ajaxSetup({
 });
         Dropzone.options.dropzone =
          {
+
             maxFilesize: 100,
             resizeQuality: 0.8,
             resizeWidth: 2000,
@@ -106,11 +113,25 @@ var myDropzoneTheSecond = new Dropzone(
         addRemoveLinks: false,
         timeout: 5000,
     }
-);
+    //this
+        //this.on("queuecomplete", function() {console.log('complete now');$('.black-back').hide();});
+).on("addedfile", function() { $('.black-back').show(); }).on("queuecomplete", function() {$('.black-back').hide();});
 $("#dropzone").dropzone({
     init: function() {
+        this.on("addedfile", function() { $('.black-back').show(); });
+        this.on("queuecomplete", function() { $('.black-back').hide(); });
+        //console.log('start');
         this.hiddenFileInput.setAttribute("webkitdirectory", true);
     }
 });
+// $("#dropzone2").dropzone({
+//     init: function() {
+//         this.on("addedfile", function() { console.log('start now'); $('.black-back').show(); });
+//         this.on("queuecomplete", function() {console.log('complete now');$('.black-back').hide();});
+//         console.log('start');
+//         //t//his.hiddenFileInput.setAttribute("webkitdirectory", true);
+//     }
+// });
+
 </script>
 @endsection
