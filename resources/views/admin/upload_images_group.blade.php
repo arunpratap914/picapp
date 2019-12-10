@@ -45,7 +45,6 @@ Upload Images
 
 @section('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js"></script>
-
 <script type="text/javascript">
 Dropzone.autoDiscover = false;
 $.ajaxSetup({
@@ -60,6 +59,8 @@ $.ajaxSetup({
         Dropzone.options.dropzone =
          {
             maxFilesize: 100,
+            resizeQuality: 0.8,
+            resizeWidth: 2000,
             renameFile: function(file) {
 
                 relativePath = file.webkitRelativePath;
@@ -91,6 +92,8 @@ var myDropzoneTheSecond = new Dropzone(
     //id of drop zone element 2
     '#dropzone2', {
         maxFilesize: 100,
+        resizeQuality: 0.8,
+        resizeWidth: 2000,
         renameFile: function(file) {
             var dt = new Date();
             var time = dt.getTime();
