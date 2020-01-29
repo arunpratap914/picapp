@@ -27,7 +27,7 @@ Edit Project
           </div>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body" style="max-width:700px;">
         <form class="user" method="POST" action="{{ route('update_group',$group->id) }}">
             @csrf
             {{ method_field('patch') }}
@@ -84,7 +84,7 @@ Edit Project
             </div>
             <button type="submit" class="btn btn-primary btn-user btn-block">
               Update Project
-            </button>
+            </button><br>
         </form>
     </div>
 </div>
