@@ -107,7 +107,7 @@
                                 $clss = "no-active";
                             }
                             $lk_img .= '<div class="carousel-item '.$clss.'">'.'<img src="'.asset('storage/images').'/'.$image->filename.'" alt="" class="w-100">'.'</div>';
-
+                            $img_url = asset("storage/images/thumbnail").'/'.$image->large
                         @endphp
                         <div class="col-md-3">
                             <a href="{{asset('storage/images')}}/{{$image->filename}}">
@@ -118,10 +118,12 @@
                             <p class="text-white p-2"><span style="width: 50%;display: inline-block;white-space: nowrap;overflow: hidden;cursor: pointer;font-size:14px;" data-toggle="tooltip" data-placement="bottom" title="Click To Copy" class="image-id-class">{{$group->code}}-{{$image->id}}</span>
                                 <span style="display: inline-block;vertical-align: top;width: 48%;text-align: right;">
                                     <input type="hidden" id="inp_{{$image->id}}" value="{{$action}}">
-                                    <span id="like_btn{{$image->id}}" class='pl-3 likebtn @if($action =="unlike") text-success @else text-secondary @endif' onclick='return like({{$image->id}},{{$group->id}},{{Auth::user()->id}});' style="font-size:14px;">
-                                    @php
-                                        if($action =="unlike") echo "UNSELECT"; else echo "SELECT";
-                                    @endphp</span>
+                                    <span id="like_btn{{$image->id}}" class='pl-3 pr-3 likebtn @if($action =="unlike") text-succ @else text-secondary @endif' onclick='return comment({{$image->id}},{{$group->id}},"{{$img_url}}");' style="font-size:14px;font-weight:bold;background: #ec3837; border-radius: 15px; color: white!important;"> 
+                                        @php
+                                            //if($action =="unlike") echo "UNSELECT"; else echo "SELECT";
+                                        @endphp
+                                        COMMENT
+                                    </span>
                                 </span>
                             </p>
                         </div>
@@ -137,6 +139,39 @@
                 @endforelse
 
             </div>
+                        <!-- The Comment Modal -->
+                        <div class="modal" id="myModal_Comment">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header p-0">
+                                <img class="w-100" id="model_img" src="http://localhost/storage/images/thumbnail/1580226911787-1578044280476058-1578044285_large_1580226913.jpg">
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body" style="background: #343a40 !important;">
+                                <div class="form-group mb-0">
+                                    <label for="comment color-white">Comment:</label>
+                                    <textarea class="form-control" rows="5" id="comment"></textarea>
+                                    <p class="text-danger" style="display:none;" id="error_comment">Error on saving your comment</p>
+                                </div>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class=" border-0 pt-1 px-4 pb-4" style="background: #343a40 !important;">
+                                <div>
+                                    <button type="button" class="btn btn-info blue d-block mb-3 w-100" id="comment_update" onclick="return update_comment();">SAVE COMMENT</button>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-primary red d-block w-100 mt-4" data-dismiss="modal">Close</button>
+                                </div>
+                                
+                            </div>
+
+                            </div>
+                        </div>
+                        </div>
 
                         <!-- The Modal -->
                         <div class="modal fade" id="myModal">
@@ -305,7 +340,60 @@
             }
         });
     }
+    function comment(image_id,group_id,img_url){
+        $("#comment").val(null);
+        $("#myModal_Comment").modal()
+        $("#comment_update").data('image_id',image_id);
+        $("#comment_update").data('group_id',group_id);
+        $("#model_img").attr("src",img_url);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type:'GET',
+            url:"/comment/"+group_id+"/"+image_id,
+            //data:{image_id:image_id, group_id:group_id, user_id:user_id,action:action},
+            success:function(data){
+                if(data[0]!=''){
+                    $("#comment").val(data[0]);
+                }else{
+                    $("#comment").val(null);
+                    $("#comment").attr("placeholder", "Type your views here");
+                }
+            }
+        });
+        //console.log('comment called');
+    }
+    function update_comment(){
+        var image_id = $("#comment_update").data('image_id');
+        var group_id = $("#comment_update").data('group_id');
+        var message = $("#comment").val();
+        //console.log(message)
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type:'POST',
+            url:"/comment",
+            data:{image_id:image_id, group_id:group_id, comment:message},
+            success:function(data){
+                if(data == 1){
+                    $("#error_comment").hide();
+                    $("#myModal_Comment").modal('toggle');
+                }else{
+                    $("#error_comment").show();
+                }
 
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                $("#error_comment").show();
+            }
+        });
+    }
     function download(){
 
     }

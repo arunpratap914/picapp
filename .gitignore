@@ -10,3 +10,9 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+.DS_Store
+.env.example
+config/app.php
+config/database.php
+public/.DS_Store
+.htaccess

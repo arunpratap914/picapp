@@ -101,7 +101,7 @@ Project Images
                 @forelse($images as $key => $image)
                 <tr id="image_{{$image->id}}" class="col-md-2 border-0 m-0 p-0">
                     <td class="border-0 pb-2" id="image_{{$image->id}}">
-                       <img src="{{asset('storage/images/thumbnail')}}/{{$image->small}}" class="img-fluid rounded" @if (!in_array($image->id, $selected_images)) onclick="return add_image({{$image->id}},{{$group->id}});" @endif>
+                       <img src="{{asset('storage/images/thumbnail')}}/{{$image->small}}" data-toggle="tooltip" data-placement="bottom" title="Click To Add" style="cursor: pointer;" class="img-fluid rounded" @if (!in_array($image->id, $selected_images)) onclick="return add_image({{$image->id}},{{$group->id}});" @endif>
                        @if (in_array($image->id, $selected_images))
                                 <p>Already added</p>
                             @endif
@@ -177,4 +177,5 @@ $('#myModal').on('hidden.bs.modal', function () {
 <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <!-- Page level custom scripts -->
 <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 @endsection

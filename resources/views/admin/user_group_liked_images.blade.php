@@ -37,6 +37,7 @@ User Likes
                   <th width="2%">#</th>
                   <th>Image</th>
                   <th>Code</th>
+                  <th>Comment</th>
                 </tr>
               </thead>
               <tfoot>
@@ -44,6 +45,7 @@ User Likes
                   <th>#</th>
                   <th>Image</th>
                   <th>Code</th>
+                  <th>Comment</th>
                 </tr>
               </tfoot>
               <tbody>
@@ -56,6 +58,7 @@ User Likes
                         </a>
                     </td>
                     <td>{{$group->code}}-{{$like->image->id}}</td>
+                    <td>{{$like->comment}}</td>
                 </tr>
                 @php
                     $num =$num+1;

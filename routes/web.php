@@ -24,6 +24,8 @@ Route::get('/groups', 'HomeController@user_groups')->name('user_groups');
 Route::get('/groups/{id}/{likes?}', 'HomeController@group')->name('group');
 Route::post('/like', 'HomeController@like')->name('like');
 Route::post('/unlike', 'HomeController@unlike')->name('unlike');
+Route::post('/comment', 'HomeController@post_comment')->name('post_comment');
+Route::get('/comment/{group_id}/{image_id}', 'HomeController@get_comment')->name('get_comment');
 // Route::get('/groups/{id}', 'HomeController@group')->name('group');
 Route::view('/email', 'emails.newuser');
 

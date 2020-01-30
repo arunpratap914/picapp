@@ -72,6 +72,17 @@ class HomeController extends Controller
     //     $group = Group::find($request->id);
     //     return view('group_detail', ['group' => $group, 'likes' => $likes, 'images' => $images]);
     // }
+    public function get_comment(Request $request){
+        //var_dump($request->group_id);
+        //return $request;
+        $comment = Like::where('user_id', Auth::user()->id)->where('image_id', $request->image_id)->where('group_id', $request->group_id)->get()->pluck('comment');
+        return $comment;
+    }
+
+    public function post_comment(Request $request){
+        $like = Like::where('user_id', Auth::user()->id)->where('image_id', $request->image_id)->where('group_id', $request->group_id)->update(['comment' => $request->comment]);
+        return $like;
+    }
 
     public function like(Request $request)
     {
